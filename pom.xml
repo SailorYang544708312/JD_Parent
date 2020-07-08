@@ -13,6 +13,7 @@
         <module>jd_sellergoods_interface</module>
         <module>jd_sellergoods_service</module>
         <module>jd_sellergoods_web</module>
+        <module>jd_common</module>
     </modules>
     <packaging>pom</packaging>
 
