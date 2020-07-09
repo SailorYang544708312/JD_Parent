@@ -16,107 +16,14 @@
 	<script type="text/javascript" src="../plugins/angularjs/pagination.js"></script>
 	<!--分页样式-->
 	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
-
-
-	<script type="text/javascript">
-		var app = angular.module("jd",["pagination"]);
-
-		app.controller("brandController",function ($scope,$http) {
-			$scope.findAll = function () {
-				$http.get("../brand/show").success(function (response) {
-					$scope.list = response;
-				});
-			}
-
-			//切换页面的时候，更新数据
-			$scope.reloadList = function(){
-				$scope.search($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
-			}
-
-			/*currentPage: 当前页码
-			totalItems:	总记录数
-			itemsPerPage:	每页显示的记录条数
-			perPageOptions:	每页显示多少条数据的消息
-			onChange:	当前页面发生变化时执行的事件
-			*/
-			$scope.paginationConf={
-				currentPage:1,
-				totalItems:10,
-				itemsPerPage:10,
-				perPageOptions:[10,20,30,40,50],
-				onChange:function () {
-					$scope.reloadList();
-				}
-			}
-
-			$scope.findPage = function (pageNum,pageSize) {
-				$http.get("../brand/findPage?pageNum="+pageNum+"&pageSize="+pageSize).success(function (response) {
-					$scope.list = response.rows;
-					$scope.paginationConf.totalItems=response.total;
-				})
-			}
-
-			//保存
-			$scope.save = function () {
-				var methodName = "add";	//方法名
-				if ($scope.entity.id != null){
-					methodName = "update";
-				}
-
-				$http.post("../brand/"+methodName,$scope.entity).success(function (response) {
-					if (response.success){
-						$scope.reloadList();
-					}else {
-						alert(response.message);
-					}
-				});
-			}
-
-			//修改
-			$scope.findOne  = function (id) {
-				$http.get("../brand/findOne?id="+id).success(function (response) {
-					$scope.entity = response;
-				})
-			}
-
-			//定义选中的数组
-			$scope.selectIds = [];
-
-			//当选择后，更新数组
-			$scope.updateSelection = function ($event,id) {
-				if ($event.target.checked){
-					$scope.selectIds.push(id);
-				}else {
-					var idx = $scope.selectIds.indexOf(id);//得到要删除的id在数组中的下标
-					//根据下标删除数组中的元素
-					$scope.selectIds.splice(idx,1);
-				}
-			}
-
-			//删除
-			$scope.delete = function () {
-				$http.get("../brand/delete?ids="+$scope.selectIds).success(function (response) {
-					if (response.success){
-						$scope.reloadList();
-						$scope.selectIds = [];
-						alert(response.message);
-					}else {
-						alert(response.message);
-					}
-				})
-			}
-
-			//条件查询的对象
-			$scope.searchEntity = {};
-			//条件查询
-			$scope.search = function (pageNum,pageSize) {
-				$http.post("../brand/search?pageNum="+pageNum+"&pageSize="+pageSize,$scope.searchEntity).success(function (response) {
-					$scope.list = response.rows;
-					$scope.paginationConf.totalItems = response.total;
-				});
-			}
-		});
-	</script>
+	<!--引入自定义模块-->
+	<script type="text/javascript" src="../js/base_pagination.js"></script>
+	<!--引入自定义服务-->
+	<script type="text/javascript" src="../js/service/brandService.js"></script>
+	<!--引入baseController-->
+	<script type="text/javascript" src="../js/controller/baseController.js"></script>
+	<!--引入自定义控制器-->
+	<script type="text/javascript" src="../js/controller/brandController.js"></script>
     
 </head>
 <body ng-app="jd" ng-controller="brandController" class="hold-transition skin-red sidebar-mini">
