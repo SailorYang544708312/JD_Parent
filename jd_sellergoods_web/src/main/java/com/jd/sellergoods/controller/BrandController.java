@@ -77,4 +77,10 @@ public class BrandController {
       }
    }
 
+   @RequestMapping("search")
+   public PageResult search(@RequestParam(value = "pageNum",defaultValue = "1")Integer pageNum,
+                            @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize,
+                            @RequestBody TbBrand tbBrand){
+      return brandService.findPage(tbBrand,pageNum,pageSize);
+   }
 }
