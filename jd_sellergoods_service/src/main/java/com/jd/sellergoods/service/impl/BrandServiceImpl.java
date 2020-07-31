@@ -11,6 +11,7 @@ import com.jd.sellergoods.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BrandServiceImpl implements BrandService {
@@ -67,6 +68,16 @@ public class BrandServiceImpl implements BrandService {
       for (Long id : ids) {
          tbBrandMapper.deleteByPrimaryKey(id);
       }
+   }
+
+   /**
+    * 为select2准备的 查询品牌 因为select2格式指定为
+    * {data:[{id:1,text:'xx'},{id:2,text:'xxx'}]}
+    * @return
+    */
+   @Override
+   public List<Map> selectBrandList() {
+      return tbBrandMapper.selectBrandList();
    }
 
 }

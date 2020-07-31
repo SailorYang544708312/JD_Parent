@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("brand")
@@ -82,5 +83,10 @@ public class BrandController {
                             @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize,
                             @RequestBody TbBrand tbBrand){
       return brandService.findPage(tbBrand,pageNum,pageSize);
+   }
+
+   @RequestMapping("selectBrandList")
+   public List<Map> selectBrandList(){
+      return brandService.selectBrandList();
    }
 }

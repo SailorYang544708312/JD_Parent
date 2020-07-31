@@ -5,6 +5,7 @@ import com.jd.pojo.TbBrandExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TbBrandMapper {
     long countByExample(TbBrandExample example);
@@ -28,4 +29,7 @@ public interface TbBrandMapper {
     int updateByPrimaryKeySelective(TbBrand record);
 
     int updateByPrimaryKey(TbBrand record);
+
+    //为select2准备的 查询品牌 因为select2格式指定为 {data:[{id:1,text:'xx'},{id:2,text:'xxx'}]}
+    List<Map> selectBrandList();
 }

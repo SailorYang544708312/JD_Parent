@@ -5,10 +5,13 @@ import java.util.List;
 
 /**
  * 用来封装分页结果对象
+ * @author 毛球
+ * @total   总记录条数
+ * @rows    当前一页信息的数据
  */
 public class PageResult implements Serializable {
-   private Long total;  //总记录条数
-   private List rows;   //当前一页信息的数据
+   private Long total;
+   private List rows;
 
    public PageResult() {
    }

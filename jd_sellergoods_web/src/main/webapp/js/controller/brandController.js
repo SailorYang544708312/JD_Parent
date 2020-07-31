@@ -59,6 +59,7 @@ app.controller("brandController",function ($scope,$controller,brandService) {
 
     //条件查询的对象
     $scope.searchEntity = {};
+
     //条件查询
     $scope.search = function (pageNum,pageSize) {
         brandService.search(pageNum,pageSize,$scope.searchEntity).success(function (response) {

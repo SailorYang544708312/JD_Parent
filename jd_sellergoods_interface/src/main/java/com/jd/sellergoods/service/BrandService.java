@@ -4,6 +4,7 @@ import com.jd.common.pojo.PageResult;
 import com.jd.pojo.TbBrand;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 品牌服务
@@ -56,4 +57,10 @@ public interface BrandService {
     * @param ids
     */
    void deleteById(Long[] ids);
+
+   /**
+    * 为select2准备的 查询品牌 因为select2格式指定为 {data:[{id:1,text:'xx'},{id:2,text:'xxx'}]}
+    * @return
+    */
+   List<Map> selectBrandList();
 }

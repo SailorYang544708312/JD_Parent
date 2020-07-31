@@ -180,4 +180,12 @@
       first_char = #{firstChar,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--
+  为select2准备的 查询品牌 因为select2格式指定为
+  {data:[{id:1,text:'xx'},{id:2,text:'xxx'}]}
+  -->
+  <select id="selectBrandList" resultType="java.util.Map">
+    select id,name as text from tb_brand
+  </select>
 </mapper>

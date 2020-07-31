@@ -31,4 +31,9 @@ app.service("brandService",function ($http) {
     this.search = function (pageNum,pageSize,searchEntity) {
         return $http.post("../brand/search?pageNum="+pageNum+"&pageSize="+pageSize,searchEntity);
     }
+
+    //查询品牌用于select2多选
+    this.selectBrandList = function () {
+        return $http.get("../brand/selectBrandList");
+    }
 });
