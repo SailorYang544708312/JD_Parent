@@ -1,14 +1,16 @@
 package com.jd.sellergoods.controller;
-import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jd.common.pojo.JdResult;
 import com.jd.common.pojo.PageResult;
 import com.jd.pojo.TbSeller;
 import com.jd.sellergoods.service.SellerService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * controller
@@ -110,5 +112,16 @@ public class SellerController {
 	public PageResult search(@RequestBody TbSeller seller, int page, int rows  ){
 		return sellerService.findPage(seller, page, rows);		
 	}
-	
+
+	@RequestMapping("updateSellerStatus")
+	public JdResult updateSellerStatus(@RequestParam("sellerId")String sellerId,
+									   @RequestParam("status")String status){
+		try{
+			sellerService.updateSellerStates(sellerId,status);
+			return JdResult.ok();
+		}catch (Exception e){
+			e.printStackTrace();
+			return new JdResult(false,"审核失败",null);
+		}
+	}
 }

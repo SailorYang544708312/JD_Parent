@@ -1,5 +1,5 @@
- //控制层 
-app.controller('sellerController' ,function($scope,$controller   ,sellerService){	
+//控制层
+app.controller('sellerController' ,function($scope,$controller,sellerService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -31,24 +31,16 @@ app.controller('sellerController' ,function($scope,$controller   ,sellerService)
 		);				
 	}
 	
-	//保存 
-	$scope.save=function(){				
-		var serviceObject;//服务层对象  				
-		if($scope.entity.id!=null){//如果有ID
-			serviceObject=sellerService.update( $scope.entity ); //修改  
-		}else{
-			serviceObject=sellerService.add( $scope.entity  );//增加 
-		}				
-		serviceObject.success(
-			function(response){
-				if(response.success){
-					//重新查询 
-		        	$scope.reloadList();//重新加载
-				}else{
-					alert(response.message);
-				}
-			}		
-		);				
+	//申请入驻
+	$scope.add=function(){
+		sellerService.add($scope.entity).success(function (response) {
+			if (response.success){
+				//入驻成功就跳转到商家登录页面
+				location.href="shoplogin.html";
+			}else {
+				alert(response.message);
+			}
+		});
 	}
 	
 	 
@@ -76,5 +68,16 @@ app.controller('sellerController' ,function($scope,$controller   ,sellerService)
 			}			
 		);
 	}
-    
+
+	//商家审核
+	$scope.updateSellerStatus = function (sellerId,status) {
+		sellerService.updateSellerStatus(sellerId,status).success(function (response) {
+			if (response.success){
+				//修改成功就刷新列表
+				$scope.reloadList();
+			}else {
+				alert(response.message);
+			}
+		})
+	}
 });	

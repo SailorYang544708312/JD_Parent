@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans.xsd
+			 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+			 http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--放行页面-->
+    <http pattern="/*.html" security="none"/>
+    <http pattern="/css/**" security="none"/>
+    <http pattern="/img/**" security="none"/>
+    <http pattern="/js/**" security="none"/>
+    <http pattern="/plugins/**" security="none"/>
+    <!--注册页面在第一行已经放行，但是注册的时候需要执行add方法 所以这个方法也要放行-->
+    <http pattern="/seller/add" security="none"/>
+
+    <!--拦截规则-->
+    <http use-expressions="false">
+        <intercept-url pattern="/**" access="ROLE_SELLER"/>
+        <form-login login-page="/shoplogin.html"
+                    default-target-url="/admin/index.html"
+                    authentication-failure-url="/shoplogin.html"
+                    always-use-default-target="true"
+                    username-parameter="username"
+                    password-parameter="password"/>
+        <csrf disabled="true"/>
+        <!--解决security对iframe框架禁止，导致的页面无法显示问题-->
+        <headers>
+            <frame-options policy="SAMEORIGIN"/>
+        </headers>
+        <!--添加注销功能 默认的注销url是/logout-->
+        <!--以下为 指定的退出地址-->
+        <!--<logout logout-url="/myLogin" logout-success-url="/login.html"/>-->
+        <!--以下为logout默认的退出地址就是 login-->
+        <logout/>
+    </http>
+
+    <!--认证管理器-->
+    <authentication-manager>
+        <!--认证的提供者-->
+        <authentication-provider user-service-ref="userDetailsServiceImpl">
+            <password-encoder ref="bCryptPasswordEncoder"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="userDetailsServiceImpl" class="com.jd.shop.service.impl.UserDetailsServiceImpl">
+        <beans:property name="sellerService" ref="sellerService"/>
+    </beans:bean>
+
+    <dubbo:application name="jd-shop-web"/>
+
+    <dubbo:registry address="zookeeper://192.168.3.20:2181"/>
+
+    <dubbo:annotation package="com.jd.shop.controller"/>
+
+    <!--利用dubbo的引用服务来拿到sellerService 方便在UserDetailsServiceImpl 里面去注入 (id在spring-security.xml里面可以用来指定引入)-->
+    <dubbo:reference interface="com.jd.sellergoods.service.SellerService" id="sellerService"/>
+
+    <!--配饰BCrypt-->
+    <beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+</beans:beans>

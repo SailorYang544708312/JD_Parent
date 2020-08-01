@@ -27,6 +27,11 @@ app.service('sellerService',function($http){
 	}
 	//搜索
 	this.search=function(page,rows,searchEntity){
-		return $http.post('../seller/search.do?page='+page+"&rows="+rows, searchEntity);
-	}    	
+		return $http.post('../seller/search?page='+page+"&rows="+rows, searchEntity);
+	}
+
+	//修改商家状态
+	this.updateSellerStatus = function (sellerId,status) {
+		return $http.get('../seller/updateSellerStatus?sellerId='+sellerId+'&status='+status);
+	}
 });
