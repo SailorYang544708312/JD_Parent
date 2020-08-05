@@ -3,6 +3,8 @@ import java.util.List;
 import com.jd.pojo.TbItemCat;
 
 import com.jd.common.pojo.PageResult;
+import sun.rmi.runtime.Log;
+
 /**
  * 服务层接口
  * @author Administrator
@@ -57,5 +59,11 @@ public interface ItemCatService {
 	 * @return
 	 */
 	public PageResult findPage(TbItemCat itemCat, int pageNum,int pageSize);
-	
+
+	/**
+	 * 根据上级目录的id查询列表
+	 * @param id  上级id号
+	 * @return
+	 */
+	List<TbItemCat> findByParentId(Long id);
 }

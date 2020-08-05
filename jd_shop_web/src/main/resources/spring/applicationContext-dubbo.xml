@@ -6,12 +6,10 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <dubbo:application name="jd-sellerGoods-service"/>
-
-    <dubbo:protocol name="dubbo" port="20880"/>
+    <dubbo:application name="jd-shop-web"/>
 
     <dubbo:registry address="zookeeper://192.168.50.20:2181"/>
 
-    <dubbo:annotation package="com.jd.sellergoods.service.impl"/>
+    <dubbo:annotation package="com.jd.shop.controller"/>
 
 </beans>

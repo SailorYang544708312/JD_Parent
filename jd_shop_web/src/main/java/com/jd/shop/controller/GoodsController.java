@@ -1,6 +1,8 @@
 package com.jd.shop.controller;
 import java.util.List;
 
+import com.jd.pojogroup.Commodity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,13 +45,17 @@ public class GoodsController {
 	
 	/**
 	 * 增加
-	 * @param goods
+	 * @param commodity
 	 * @return
 	 */
 	@RequestMapping("/add")
-	public JdResult add(@RequestBody TbGoods goods){
+	public JdResult add(@RequestBody Commodity commodity){
 		try {
-			goodsService.add(goods);
+			//获取到商家的登陆名(tb_seller里面的 seller_id)
+			String name = SecurityContextHolder.getContext().getAuthentication().getName();
+			//设置商家的seller_id字段
+			commodity.getGoods().setSellerId(name);
+			goodsService.add(commodity);
 			return new JdResult(true, "增加成功",null);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,7 +107,7 @@ public class GoodsController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
+	 * @param
 	 * @param page
 	 * @param rows
 	 * @return

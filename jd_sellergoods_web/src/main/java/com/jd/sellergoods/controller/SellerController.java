@@ -113,6 +113,12 @@ public class SellerController {
 		return sellerService.findPage(seller, page, rows);		
 	}
 
+	/**
+	 * 修改商家审核状态
+	 * @param sellerId 商家名称
+	 * @param status	要修改的状态码
+	 * @return
+	 */
 	@RequestMapping("updateSellerStatus")
 	public JdResult updateSellerStatus(@RequestParam("sellerId")String sellerId,
 									   @RequestParam("status")String status){

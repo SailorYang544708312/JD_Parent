@@ -52,14 +52,15 @@
 
     <dubbo:application name="jd-shop-web"/>
 
-    <dubbo:registry address="zookeeper://192.168.3.20:2181"/>
-
-    <dubbo:annotation package="com.jd.shop.controller"/>
+    <dubbo:registry address="zookeeper://192.168.50.20:2181"/>
 
     <!--利用dubbo的引用服务来拿到sellerService 方便在UserDetailsServiceImpl 里面去注入 (id在spring-security.xml里面可以用来指定引入)-->
-    <dubbo:reference interface="com.jd.sellergoods.service.SellerService" id="sellerService"/>
+    <dubbo:reference id="sellerService" interface="com.jd.sellergoods.service.SellerService" />
 
     <!--配饰BCrypt-->
     <beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <!--配置商家登录校验的bean-->
+    <beans:bean id="myAuthenticationFailureHandler" class="com.js.shop.security.MyAuthenticationFailureHandler"/>
 
 </beans:beans>

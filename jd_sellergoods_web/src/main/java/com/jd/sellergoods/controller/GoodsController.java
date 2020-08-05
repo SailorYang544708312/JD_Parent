@@ -41,23 +41,7 @@ public class GoodsController {
 	public PageResult  findPage(int page,int rows){			
 		return goodsService.findPage(page, rows);
 	}
-	
-	/**
-	 * 增加
-	 * @param goods
-	 * @return
-	 */
-	@RequestMapping("/add")
-	public JdResult add(@RequestBody TbGoods goods){
-		try {
-			goodsService.add(goods);
-			return new JdResult(true, "增加成功",null);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new JdResult(false, "增加失败",null);
-		}
-	}
-	
+
 	/**
 	 * 修改
 	 * @param goods

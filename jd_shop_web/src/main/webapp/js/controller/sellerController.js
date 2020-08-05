@@ -68,5 +68,18 @@ app.controller('sellerController' ,function($scope,$controller,sellerService){
 			}			
 		);
 	}
-    
+
+	$scope.message = "";
+
+	//登录校验
+	$scope.userLogin = function () {
+		sellerService.userLogin($scope.username,$scope.password).success(function (response) {
+			if (response.success == undefined){
+				location.href="admin/index.html";
+			}
+			if (response.success == false){
+				$scope.message = response.message;
+			}
+		})
+	}
 });	

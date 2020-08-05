@@ -1,4 +1,4 @@
-package com.jd.sellergoods.controller;
+package com.jd.shop.controller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,19 +8,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 用于商家登录时的校验
  * @author 毛球
- * 用于支持spring security的用户登陆
  */
 @RestController
 @RequestMapping("login")
 public class LoginController {
+
    @RequestMapping("name")
-   public Map<String,Object> name(){
-      //从Spring-security中取出当前登陆的用户名
-      Map<String,Object> map = new HashMap<>();
-      String uName = SecurityContextHolder.getContext().getAuthentication().getName();
-      map.put("loginName",uName);
+   public Map<String,String> name(){
+      //从springSecurity中取出当前登录的用户名
+      String name = SecurityContextHolder.getContext().getAuthentication().getName();
+      Map<String,String> map = new HashMap<String,String>();
+      map.put("loginName",name);
       return map;
    }
 }
-

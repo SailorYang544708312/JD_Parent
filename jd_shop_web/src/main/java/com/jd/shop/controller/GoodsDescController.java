@@ -1,14 +1,15 @@
-package com.jd.sellergoods.controller;
-import java.util.List;
+package com.jd.shop.controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jd.common.pojo.JdResult;
 import com.jd.common.pojo.PageResult;
 import com.jd.pojo.TbGoodsDesc;
 import com.jd.sellergoods.service.GoodsDescService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * controller

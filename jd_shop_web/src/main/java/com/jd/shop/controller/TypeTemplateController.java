@@ -1,14 +1,15 @@
-package com.jd.sellergoods.controller;
-import java.util.List;
+package com.jd.shop.controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jd.common.pojo.JdResult;
 import com.jd.common.pojo.PageResult;
-import com.jd.pojo.TbSpecificationOption;
-import com.jd.sellergoods.service.SpecificationOptionService;
+import com.jd.pojo.TbTypeTemplate;
+import com.jd.sellergoods.service.TypeTemplateService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * controller
@@ -16,19 +17,19 @@ import com.jd.sellergoods.service.SpecificationOptionService;
  *
  */
 @RestController
-@RequestMapping("/specificationOption")
-public class SpecificationOptionController {
+@RequestMapping("/typeTemplate")
+public class TypeTemplateController {
 
 	@Reference
-	private SpecificationOptionService specificationOptionService;
+	private TypeTemplateService typeTemplateService;
 	
 	/**
 	 * 返回全部列表
 	 * @return
 	 */
 	@RequestMapping("/findAll")
-	public List<TbSpecificationOption> findAll(){			
-		return specificationOptionService.findAll();
+	public List<TbTypeTemplate> findAll(){			
+		return typeTemplateService.findAll();
 	}
 	
 	
@@ -38,18 +39,18 @@ public class SpecificationOptionController {
 	 */
 	@RequestMapping("/findPage")
 	public PageResult  findPage(int page,int rows){			
-		return specificationOptionService.findPage(page, rows);
+		return typeTemplateService.findPage(page, rows);
 	}
 	
 	/**
 	 * 增加
-	 * @param specificationOption
+	 * @param typeTemplate
 	 * @return
 	 */
 	@RequestMapping("/add")
-	public JdResult add(@RequestBody TbSpecificationOption specificationOption){
+	public JdResult add(@RequestBody TbTypeTemplate typeTemplate){
 		try {
-			specificationOptionService.add(specificationOption);
+			typeTemplateService.add(typeTemplate);
 			return new JdResult(true, "增加成功",null);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,13 +60,13 @@ public class SpecificationOptionController {
 	
 	/**
 	 * 修改
-	 * @param specificationOption
+	 * @param typeTemplate
 	 * @return
 	 */
 	@RequestMapping("/update")
-	public JdResult update(@RequestBody TbSpecificationOption specificationOption){
+	public JdResult update(@RequestBody TbTypeTemplate typeTemplate){
 		try {
-			specificationOptionService.update(specificationOption);
+			typeTemplateService.update(typeTemplate);
 			return new JdResult(true, "修改成功",null);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,8 +80,8 @@ public class SpecificationOptionController {
 	 * @return
 	 */
 	@RequestMapping("/findOne")
-	public TbSpecificationOption findOne(Long id){
-		return specificationOptionService.findOne(id);		
+	public TbTypeTemplate findOne(Long id){
+		return typeTemplateService.findOne(id);		
 	}
 	
 	/**
@@ -91,7 +92,7 @@ public class SpecificationOptionController {
 	@RequestMapping("/delete")
 	public JdResult delete(Long [] ids){
 		try {
-			specificationOptionService.delete(ids);
+			typeTemplateService.delete(ids);
 			return new JdResult(true, "删除成功" ,null); 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,14 +102,14 @@ public class SpecificationOptionController {
 	
 		/**
 	 * 查询+分页
-	 * @param
+	 * @param brand
 	 * @param page
 	 * @param rows
 	 * @return
 	 */
 	@RequestMapping("/search")
-	public PageResult search(@RequestBody TbSpecificationOption specificationOption, int page, int rows  ){
-		return specificationOptionService.findPage(specificationOption, page, rows);		
+	public PageResult search(@RequestBody TbTypeTemplate typeTemplate, int page, int rows  ){
+		return typeTemplateService.findPage(typeTemplate, page, rows);		
 	}
 	
 }

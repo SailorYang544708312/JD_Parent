@@ -1,14 +1,16 @@
-package com.jd.sellergoods.controller;
-import java.util.List;
+package com.jd.shop.controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jd.common.pojo.JdResult;
 import com.jd.common.pojo.PageResult;
-import com.jd.pojo.TbSpecificationOption;
-import com.jd.sellergoods.service.SpecificationOptionService;
+import com.jd.pojo.TbItemCat;
+import com.jd.sellergoods.service.ItemCatService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * controller
@@ -16,19 +18,19 @@ import com.jd.sellergoods.service.SpecificationOptionService;
  *
  */
 @RestController
-@RequestMapping("/specificationOption")
-public class SpecificationOptionController {
+@RequestMapping("/itemCat")
+public class ItemCatController {
 
 	@Reference
-	private SpecificationOptionService specificationOptionService;
+	private ItemCatService itemCatService;
 	
 	/**
 	 * 返回全部列表
 	 * @return
 	 */
 	@RequestMapping("/findAll")
-	public List<TbSpecificationOption> findAll(){			
-		return specificationOptionService.findAll();
+	public List<TbItemCat> findAll(){			
+		return itemCatService.findAll();
 	}
 	
 	
@@ -38,18 +40,18 @@ public class SpecificationOptionController {
 	 */
 	@RequestMapping("/findPage")
 	public PageResult  findPage(int page,int rows){			
-		return specificationOptionService.findPage(page, rows);
+		return itemCatService.findPage(page, rows);
 	}
 	
 	/**
 	 * 增加
-	 * @param specificationOption
+	 * @param itemCat
 	 * @return
 	 */
 	@RequestMapping("/add")
-	public JdResult add(@RequestBody TbSpecificationOption specificationOption){
+	public JdResult add(@RequestBody TbItemCat itemCat){
 		try {
-			specificationOptionService.add(specificationOption);
+			itemCatService.add(itemCat);
 			return new JdResult(true, "增加成功",null);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,13 +61,13 @@ public class SpecificationOptionController {
 	
 	/**
 	 * 修改
-	 * @param specificationOption
+	 * @param itemCat
 	 * @return
 	 */
 	@RequestMapping("/update")
-	public JdResult update(@RequestBody TbSpecificationOption specificationOption){
+	public JdResult update(@RequestBody TbItemCat itemCat){
 		try {
-			specificationOptionService.update(specificationOption);
+			itemCatService.update(itemCat);
 			return new JdResult(true, "修改成功",null);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,8 +81,8 @@ public class SpecificationOptionController {
 	 * @return
 	 */
 	@RequestMapping("/findOne")
-	public TbSpecificationOption findOne(Long id){
-		return specificationOptionService.findOne(id);		
+	public TbItemCat findOne(Long id){
+		return itemCatService.findOne(id);		
 	}
 	
 	/**
@@ -91,7 +93,7 @@ public class SpecificationOptionController {
 	@RequestMapping("/delete")
 	public JdResult delete(Long [] ids){
 		try {
-			specificationOptionService.delete(ids);
+			itemCatService.delete(ids);
 			return new JdResult(true, "删除成功" ,null); 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -107,8 +109,12 @@ public class SpecificationOptionController {
 	 * @return
 	 */
 	@RequestMapping("/search")
-	public PageResult search(@RequestBody TbSpecificationOption specificationOption, int page, int rows  ){
-		return specificationOptionService.findPage(specificationOption, page, rows);		
+	public PageResult search(@RequestBody TbItemCat itemCat, int page, int rows  ){
+		return itemCatService.findPage(itemCat, page, rows);		
 	}
-	
+
+	@RequestMapping("findByParentId")
+	public List<TbItemCat> findByParentId(@RequestParam("parentId")Long parentId){
+		return itemCatService.findByParentId(parentId);
+	}
 }

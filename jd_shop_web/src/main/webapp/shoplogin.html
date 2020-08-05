@@ -6,12 +6,21 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 	<title>京东，欢迎登录</title>
-	<link rel="icon" href="assets/img/favicon.ico">
     <link rel="stylesheet" type="text/css" href="css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="css/pages-shoplogin.css" />
+	<!--引入angularjs-->
+	<script src="plugins/angularjs/angular.min.js"></script>
+	<!--引入自定义模块-->
+	<script type="text/javascript" src="js/base.js"></script>
+	<!--引入自定义服务-->
+	<script type="text/javascript" src="js/service/sellerService.js"></script>
+	<!--引入baseController-->
+	<script type="text/javascript" src="js/controller/baseController.js"></script>
+	<!--引入自定义控制器-->
+	<script type="text/javascript" src="js/controller/sellerController.js"></script>
 </head>
 
-<body>
+<body ng-app="jd" ng-controller="sellerController">
 	<div class="login-box">
 		<!--head-->
 		<div class="py-container logoArea">
@@ -40,20 +49,21 @@
 								<img src="img/wx_cz.jpg" />
 							</div>
 							<div id="profile" class="tab-pane  active">
-								<form action="/login" method="post" id="shoplogin" class="sui-form">
+								<form action="/login" method="post" class="sui-form">
 									<div class="input-prepend"><span class="add-on loginname"></span>
-										<input name="username" type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat">
+										<input name="username" ng-model="username" type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat">
 									</div>
 									<div class="input-prepend"><span class="add-on loginpwd"></span>
-										<input name="password" type="password" placeholder="请输入密码" class="span2 input-xfat">
+										<input name="password" ng-model="password" type="password" placeholder="请输入密码" class="span2 input-xfat">
 									</div>
 									<div class="setting">
 										<label class="checkbox inline"><input name="m1" type="checkbox" value="2" checked="">自动登录</label>
 									<span class="forget">忘记密码?</span>
 									</div>
 									<div class="logined">
-										<a class="sui-btn btn-block btn-xlarge btn-danger" onclick="document:shoplogin.submit()" >登&nbsp;&nbsp;录</a>
+										<a class="sui-btn btn-block btn-xlarge btn-danger" href="javaScript:void(0)" ng-click="userLogin()">登&nbsp;&nbsp;录</a>
 									</div>
+									{{message}}
 								</form>
 								<div class="otherlogin">
 									<div class="types">

@@ -3,6 +3,7 @@ package com.jd.shop.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jd.pojo.TbSeller;
 import com.jd.sellergoods.service.SellerService;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -49,11 +50,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return new User(username,seller.getPassword(),authorities);
          }else {
             //表示没有审核通过
-            return  null;
+            throw new BadCredentialsException("您的账号还在审核中");
          }
       }else {
          //表示用户名不存在
-         return null;
+         throw new BadCredentialsException("用户名不存在");
       }
 
 

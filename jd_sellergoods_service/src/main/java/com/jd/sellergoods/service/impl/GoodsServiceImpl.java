@@ -1,5 +1,8 @@
 package com.jd.sellergoods.service.impl;
 import java.util.List;
+
+import com.jd.mapper.TbGoodsDescMapper;
+import com.jd.pojogroup.Commodity;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
@@ -21,6 +24,8 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Autowired
 	private TbGoodsMapper goodsMapper;
+	@Autowired
+	private TbGoodsDescMapper goodsDescMapper;
 	
 	/**
 	 * 查询全部
@@ -44,8 +49,14 @@ public class GoodsServiceImpl implements GoodsService {
 	 * 增加
 	 */
 	@Override
-	public void add(TbGoods goods) {
-		goodsMapper.insert(goods);		
+	public void add(Commodity commodity) {
+		//添加SPU(tb_goods表) 新增商品默认是未审核状态
+		commodity.getGoods().setAuditStatus("0");
+		goodsMapper.insert(commodity.getGoods());
+
+		//获取商品详情的id 然后对商品详情表新增
+		commodity.getGoodsDesc().setGoodsId(commodity.getGoods().getId());
+		goodsDescMapper.insert(commodity.getGoodsDesc());
 	}
 
 	
