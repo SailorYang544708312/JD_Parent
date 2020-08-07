@@ -83,7 +83,10 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,uploa
 		$scope.entity.goodsDesc.introduction = editor.html();
 		//将json格式转成string
 		$scope.entity.goodsDesc.itemImages = JSON.stringify($scope.entity.goodsDesc.itemImages);
+		//商品扩展属性转成json字符串
 		$scope.entity.goodsDesc.customAttributeItems = JSON.stringify($scope.entity.goodsDesc.customAttributeItems);
+		//商品的规格详情转成json字符串
+		$scope.entity.goodsDesc.specificationItems = JSON.stringify($scope.entity.goodsDesc.specificationItems);
 		goodsService.add($scope.entity).success(function (response) {
 			if (response.success){
 				//新增后清空添加框中的信息
@@ -113,7 +116,7 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,uploa
 	}
 
 	//定义页面实体结构
-	$scope.entity = {goods:{},goodsDesc:{itemImages:[]}};
+	$scope.entity = {goods:{},goodsDesc:{itemImages:[],specificationItems:[]}};
 
 	//添加图片列表
 	$scope.add_image_entity = function () {
@@ -166,6 +169,63 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,uploa
 			//通过类型模板，得到扩展属性列表
 			$scope.entity.goodsDesc.customAttributeItems = JSON.parse($scope.typeTemplate.customAttributeItems);
 		});
+
+		//一旦确定了模板id 就可以通过模板id查询出 关联的规格 和 规格选项
+		typeTemplateService.findSpecList(newValue).success(function (response) {
+			$scope.specList = response;
+		})
 	});
+
+	//当勾选规格列表的时候，更新数组
+	$scope.updateSpecAttribute = function ($event,name,value) {
+		var object = $scope.searchObjectByKey($scope.entity.goodsDesc.specificationItems,"attributeName",name);
+		if (object!=null){
+			//表示集合存在 那么就继续往 集合里面加
+			if ($event.target.checked){
+				//如果勾选才加
+				object.attributeValue.push(value);
+			}else {
+				//如果取消勾选 就移除
+				object.attributeValue.splice(object.attributeValue.indexOf(value),1);
+				//如果所有的选项都取消了 那么要移除所有的记录
+				if (object.attributeValue.length ==0){
+					$scope.entity.goodsDesc.specificationItems.splice($scope.entity.goodsDesc.specificationItems.indexOf(object,1));
+				}
+			}
+
+		}else {
+			//集合不存在 我们就创建新的集合模板
+			$scope.entity.goodsDesc.specificationItems.push({"attributeName":name,"attributeValue":[value]});
+			//格式例子:
+			//[{"attributeName":"网络","attributeValue":["移动3G","联通4G"]}]
+		}
+	}
+
+
+	//创建sku列表
+	$scope.createItemList = function () {
+		//定义sku列表(初始化)  price价格 num库存 status商品状态[0-请求审核 1-正常，2-下架，3-删除]  idDefault是否设置默认展示[0-否 1-是]
+		$scope.entity.itemList = [{spec:{},price:0,num:0,status:"0",isDefault:"0"}];
+		var items = $scope.entity.goodsDesc.specificationItems;
+		for (var i = 0; i <items.length ; i++) {
+			//深克隆
+			$scope.entity.itemList = addColumn($scope.entity.itemList,items[i].attributeName,items[i].attributeValue);
+		}
+	}
+
+	//（用于深克隆）添加咧
+	addColumn = function (list,columnName,columnValues) {
+		var newList = [];
+		for (var i = 0; i < list.length; i++) {
+			var oldRow = list[i];
+			for (var j = 0; j < columnValues.length; j++) {
+				//深克隆就是把老的行先转成字符串 再转成json对象 就完成了深克隆
+				var newRow =  JSON.parse(JSON.stringify(oldRow));
+				newRow.spec[columnName] = columnValues[j];
+				newList.push(newRow);
+			}
+		}
+		return newList;
+	}
 
 });	

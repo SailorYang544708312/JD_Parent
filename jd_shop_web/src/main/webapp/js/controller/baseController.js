@@ -33,4 +33,15 @@ app.controller("baseController",function ($scope) {
             $scope.selectIds.splice(idx,1);
         }
     }
+
+    //判断前端页面查询集合中key是否存在
+    //设计格式例 [{"attributeName":"网络","attributeValue":["移动3G","联通4G"]}，{"id":35,"text":"机身内存",options:["16G","32G","64G"]}]
+    $scope.searchObjectByKey = function (list,key,value) {
+        for (var i = 0; i < list.length; i++) {
+            if (list[i][key]==value){
+                return list[i];
+            }
+        }
+        return null;
+    }
 });
